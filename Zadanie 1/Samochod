@@ -1,0 +1,92 @@
+class Samochod
+{
+    private string marka;
+    private string model;
+    private int iloscDrzwi;
+    private int pojemnoscSilnika;
+    private double srednieSpalanie;
+
+    private static int iloscSamochodow = 0;
+
+    // Default constructor
+    public Samochod()
+    {
+        marka = "nieznana";
+        model = "nieznany";
+        iloscDrzwi = 0;
+        pojemnoscSilnika = 0;
+        srednieSpalanie = 0.0;
+        iloscSamochodow++;
+    }
+
+    // Parameterized constructor
+    public Samochod(string marka_, string model_, int iloscDrzwi_, int pojemnoscSilnika_, double srednieSpalanie_)
+    {
+        marka = marka_;
+        model = model_;
+        iloscDrzwi = iloscDrzwi_;
+        pojemnoscSilnika = pojemnoscSilnika_;
+        srednieSpalanie = srednieSpalanie_;
+        iloscSamochodow++;
+    }
+
+    // Properties
+    public string Marka
+    {
+        get { return marka; }
+        set { marka = value; }
+    }
+
+    public string Model
+    {
+        get { return model; }
+        set { model = value; }
+    }
+
+    public int IloscDrzwi
+    {
+        get { return iloscDrzwi; }
+        set { iloscDrzwi = value; }
+    }
+
+    public int PojemnoscSilnika
+    {
+        get { return pojemnoscSilnika; }
+        set { pojemnoscSilnika = value; }
+    }
+
+    public double SrednieSpalanie
+    {
+        get { return srednieSpalanie; }
+        set { srednieSpalanie = value; }
+    }
+
+    // Private method to calculate fuel consumption for a given distance
+    private double ObliczSpalanie(double dlugoscTrasy)
+    {
+        return (srednieSpalanie * dlugoscTrasy) / 100.0;
+    }
+
+    // Public method to calculate travel cost for a given distance and fuel price
+    public double ObliczKosztPrzejazdu(double dlugoscTrasy, double cenaPaliwa)
+    {
+        double spalanie = ObliczSpalanie(dlugoscTrasy);
+        return spalanie * cenaPaliwa;
+    }
+
+    // Public method to print all information about the car
+    public void WypiszInfo()
+    {
+        Console.WriteLine($"Marka: {marka}");
+        Console.WriteLine($"Model: {model}");
+        Console.WriteLine($"Ilość drzwi: {iloscDrzwi}");
+        Console.WriteLine($"Pojemność silnika: {pojemnoscSilnika} cm^3");
+        Console.WriteLine($"Średnie spalanie: {srednieSpalanie} l/100km");
+    }
+
+    // Static method to print the number of created car objects
+    public static void WypiszIloscSamochodow()
+    {
+        Console.WriteLine($"Liczba utworzonych samochodów: {iloscSamochodow}");
+    }
+}

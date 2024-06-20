@@ -1,0 +1,44 @@
+Napisz aplikację w języku c#, która pozwoli użytkownikowi
+wybrać algorytm szyfrowania przy pomocy pola ComboBox, następnie wygenerować
+klucze, zaszyfrować i odszyfrować wiadomości. Aplikacja powinna wyświetlać tekst jawny i
+zaszyfrowany zarówno w postaci ASCII jak i w postaci HEX a także klucze i IV. Na podstawie
+poznanych wcześniej timerow wzbogać funkcjonalność aplikacji o wyświetlanie czasu
+szyfrowania i deszyfrowania wiadomości. Możesz zbudować aplikację zgodnie z
+umieszonym tutaj przykładem interfejsu lub zaprojektować własny.
+
+1. Utwórz nowy projekt WPF:
+
+• Otwórz Visual Studio.
+• Utwórz nową aplikację WPF (.Projekt NET Core).
+• Nazwij swój projekt i rozwiązanie odpowiednio.
+
+2). Zaprojektuj interfejs użytkownika:
+
+• Użyj projektanta XAML, aby utworzyć interfejs.
+• Dodaj niezbędne elementy interfejsu użytkownika: ComboBox do wyboru algorytmu, TextBox do wprowadzania i wyprowadzania oraz Przyciski do działań.
+• Dodaj etykiety i TextBox do wyświetlania kluczy, IV, szyfrowania i czasów deszyfrowania.
+
+3). Logika za kodem:
+W MainWindow.xaml.cs zaimplementuj logikę generowania klucza, szyfrowania i deszyfrowania
+
+
+Wyjaśnienie:
+1. Elementy interfejsu użytkownika:
+
+ ComboBox do wyboru algorytmu szyfrowania (AES, DES, TripleDES).
+ TextBox dla użytkownika do wprowadzania zwykłego tekstu.
+ TextBox do wyświetlania tekstu zaszyfrowanego w ASCII i HEX.
+ TextBox do wyświetlania kluczy i IV.
+ Przycisk do generowania kluczy, szyfrowania i odszyfrowywania tekstu.
+ TextBox wyświetli czas szyfrowania i deszyfrowania.
+2). Obsługa zdarzeń:
+
+ Generuj KeysButton_Click: Generuje klucz i IV dla wybranego algorytmu.
+ EncryptButton_Click: Szyfruje zwykły tekst i wyświetla zaszyfrowany tekst zarówno w ASCII, jak i HEX, i pokazuje czas szyfrowania.
+ DecryptButton_Click: Odszyfrowuje tekst szyfru (w HEX) i wyświetla zwykły tekst oraz pokazuje czas deszyfrowania.
+ 
+3). Metody szyfrowania / deszyfrowania:
+• EncryptStringToBytes: Konwertuje zwykły ciąg tekstowy na zaszyfrowane bajty.
+• DecryptStringFromBytes: Konwertuje zaszyfrowane bajty z powrotem na zwykły ciąg tekstowy.
+• HexStringToByteArray: Pomocna metoda konwersji ciągu HEX na tablicę bajtów.
+Ten przykład zapewnia pełną implementację, aby osiągnąć opisaną funkcjonalność. Możesz dodatkowo ulepszyć projekt interfejsu użytkownika i dodać więcej funkcji w razie potrzeby.

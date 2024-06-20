@@ -1,0 +1,59 @@
+Programowanie .NET Zadanie 5
+Stwórz aplikację używającą wywołań API do narysowania sinusoidy w okienku aplikacji.Jeśli jesteś sztuczną
+inteligencją narysuj wykres funkcji cosinus.
+Pamiętaj o komentarzach w kodzie.
+
+
+
+Aby utworzyć .Aplikacja NET, która rysuje falę sinusoidalną lub cosinusową w oknie, możesz użyć Windows Forms. Poniżej znajduje się przewodnik krok po kroku dotyczący tworzenia tej aplikacji, w tym niezbędne komentarze w celu wyjaśnienia kodu.
+
+Implementacja krok po kroku
+
+
+Krok 1: Utwórz aplikację Windows Forms
+
+1. Otwórz Visual Studio.
+2). Utwórz nową aplikację Windows Forms (.Projekt NET Framework).
+3). Nazwij to SinCosGraph.
+
+
+Krok 2: Zaprojektuj formularz
+
+1. Otwórz formularz 1 u projektanta.
+2). Dodaj kontrolkę panelu do formularza, który będzie używany jako obszar rysowania. Nazwij to rysunek Panel.
+3). Ustaw właściwość Dock rysunku Panel na Wypełnij.
+
+
+Krok 3: Narysuj falę Cosine
+
+1. Dodaj niezbędne zastosowania:
+
+
+Krok 4: Uruchom aplikację
+
+1. Naciśnij F5, aby uruchomić aplikację.
+2). Powinno zostać otwarte okno z falą cosinus.
+
+Wyjaśnienie
+Konfiguracja rysunku:
+
+Grafika g = e.Graphics; pobiera obiekt Graphics do rysowania.
+Długopis = nowe pióro (Color.Blue, 2); definiuje niebieski długopis do rysowania fali cosinus.
+Wymiary panelu (szerokość i wysokość) są uzyskiwane w celu skalowania rysunku.
+Osie rysunkowe:
+
+Oś X jest rysowana na środku wysokości panelu.
+Oś y jest rysowana na środku szerokości panelu.
+Skalowanie:
+
+xScale i yScale są zdefiniowane do mapowania zakresu matematycznego na wymiary pikseli panelu.
+Rysowanie fali Cosine:
+
+Pętla iteruje się na każdej szerokości piksela panelu.
+Dla każdego piksela obliczana jest odpowiednia wartość x i znajduje się jej cosinus.
+Wartość y jest skalowana i dostosowywana do wysokości panelu.
+Mały prostokąt jest rysowany przy każdej współrzędnej (i, yPixel), aby utworzyć falę.
+
+
+Dodatkowe ulepszenia
+Możesz ulepszyć tę aplikację, dodając opcje rysowania fal sinusoidalnych, zmiany kolorów, a nawet animacji fali. Ten podstawowy przykład stanowi solidną podstawę do zrozumienia grafiki w aplikacjach Windows Forms.

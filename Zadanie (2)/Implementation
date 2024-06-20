@@ -1,0 +1,119 @@
+using System;
+using System.Diagnostics;
+using System.IO;
+using System.Security.Cryptography;
+using System.Text;
+
+namespace EncryptionPerformanceTest
+{
+    class Program
+    {
+        private static readonly byte[] data = Encoding.UTF8.GetBytes(new string('A', 1024 * 1024)); // 1 MB of data
+
+        static void Main(string[] args)
+        {
+            Console.WriteLine("Algorithm\t\tMemory Time(s/block)\tMemory Throughput(bytes/s)\tDisk Time(s/block)\tDisk Throughput(bytes/s)");
+            
+            TestAlgorithm(Aes.Create());
+            TestAlgorithm(DES.Create());
+            TestAlgorithm(TripleDES.Create());
+
+            Console.ReadKey();
+        }
+
+        private static void TestAlgorithm(SymmetricAlgorithm algorithm)
+        {
+            algorithm.GenerateKey();
+            algorithm.GenerateIV();
+
+            var memoryResults = MeasurePerformanceInMemory(algorithm);
+            var diskResults = MeasurePerformanceOnDisk(algorithm);
+
+            Console.WriteLine($"{algorithm.GetType().Name}\t\t{memoryResults.Item1:F6}\t\t{memoryResults.Item2:F2}\t\t{diskResults.Item1:F6}\t\t{diskResults.Item2:F2}");
+        }
+
+        private static (double, double) MeasurePerformanceInMemory(SymmetricAlgorithm algorithm)
+        {
+            var encryptor = algorithm.CreateEncryptor(algorithm.Key, algorithm.IV);
+            var decryptor = algorithm.CreateDecryptor(algorithm.Key, algorithm.IV);
+
+            // Measure encryption time in memory
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
+            var encryptedData = PerformCryptography(data, encryptor);
+            stopwatch.Stop();
+            double encryptionTime = stopwatch.Elapsed.TotalSeconds / (encryptedData.Length / algorithm.BlockSize);
+
+            // Measure decryption time in memory
+            stopwatch.Restart();
+            var decryptedData = PerformCryptography(encryptedData, decryptor);
+            stopwatch.Stop();
+            double decryptionTime = stopwatch.Elapsed.TotalSeconds / (decryptedData.Length / algorithm.BlockSize);
+
+            // Calculate throughput in bytes per second
+            double throughput = data.Length / (encryptionTime + decryptionTime);
+
+            return (encryptionTime + decryptionTime, throughput);
+        }
+
+        private static (double, double) MeasurePerformanceOnDisk(SymmetricAlgorithm algorithm)
+        {
+            var encryptor = algorithm.CreateEncryptor(algorithm.Key, algorithm.IV);
+            var decryptor = algorithm.CreateDecryptor(algorithm.Key, algorithm.IV);
+
+            string tempFile = Path.GetTempFileName();
+            File.WriteAllBytes(tempFile, data);
+
+            // Measure encryption time on disk
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
+            using (var fsInput = new FileStream(tempFile, FileMode.Open, FileAccess.Read))
+            using (var fsOutput = new FileStream(tempFile + ".enc", FileMode.Create, FileAccess.Write))
+            {
+                PerformCryptography(fsInput, fsOutput, encryptor);
+            }
+            stopwatch.Stop();
+            double encryptionTime = stopwatch.Elapsed.TotalSeconds / (data.Length / algorithm.BlockSize);
+
+            // Measure decryption time on disk
+            stopwatch.Restart();
+            using (var fsInput = new FileStream(tempFile + ".enc", FileMode.Open, FileAccess.Read))
+            using (var fsOutput = new FileStream(tempFile + ".dec", FileMode.Create, FileAccess.Write))
+            {
+                PerformCryptography(fsInput, fsOutput, decryptor);
+            }
+            stopwatch.Stop();
+            double decryptionTime = stopwatch.Elapsed.TotalSeconds / (data.Length / algorithm.BlockSize);
+
+            // Calculate throughput in bytes per second
+            double throughput = data.Length / (encryptionTime + decryptionTime);
+
+            // Cleanup
+            File.Delete(tempFile);
+            File.Delete(tempFile + ".enc");
+            File.Delete(tempFile + ".dec");
+
+            return (encryptionTime + decryptionTime, throughput);
+        }
+
+        private static byte[] PerformCryptography(byte[] data, ICryptoTransform cryptoTransform)
+        {
+            using (var memoryStream = new MemoryStream())
+            using (var cryptoStream = new CryptoStream(memoryStream, cryptoTransform, CryptoStreamMode.Write))
+            {
+                cryptoStream.Write(data, 0, data.Length);
+                cryptoStream.FlushFinalBlock();
+                return memoryStream.ToArray();
+            }
+        }
+
+        private static void PerformCryptography(FileStream inputStream, FileStream outputStream, ICryptoTransform cryptoTransform)
+        {
+            using (var cryptoStream = new CryptoStream(outputStream, cryptoTransform, CryptoStreamMode.Write))
+            {
+                inputStream.CopyTo(cryptoStream);
+                cryptoStream.FlushFinalBlock();
+            }
+        }
+    }
+}

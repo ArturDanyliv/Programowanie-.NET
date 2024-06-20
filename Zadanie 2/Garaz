@@ -1,0 +1,84 @@
+class Garaz
+{
+    private string adres;
+    private int pojemnosc;
+    private int liczbaSamochodow = 0;
+    private Samochod[] samochody;
+
+    // Properties
+    public string Adres
+    {
+        get { return adres; }
+        set { adres = value; }
+    }
+
+    public int Pojemnosc
+    {
+        get { return pojemnosc; }
+        set
+        {
+            pojemnosc = value;
+            samochody = new Samochod[pojemnosc];
+        }
+    }
+
+    // Default constructor
+    public Garaz()
+    {
+        adres = "nieznany";
+        pojemnosc = 0;
+        samochody = null;
+    }
+
+    // Parameterized constructor
+    public Garaz(string adres_, int pojemnosc_)
+    {
+        adres = adres_;
+        pojemnosc = pojemnosc_;
+        samochody = new Samochod[pojemnosc];
+    }
+
+    // Method to add a car to the garage
+    public void WprowadzSamochod(Samochod nowySamochod)
+    {
+        if (liczbaSamochodow >= pojemnosc)
+        {
+            Console.WriteLine("Garaż jest pełny, nie można wprowadzić nowego samochodu.");
+        }
+        else
+        {
+            samochody[liczbaSamochodow] = nowySamochod;
+            liczbaSamochodow++;
+        }
+    }
+
+    // Method to remove the last car from the garage
+    public Samochod WyprowadzSamochod()
+    {
+        if (liczbaSamochodow == 0)
+        {
+            Console.WriteLine("Garaż jest pusty, nie można wyprowadzić samochodu.");
+            return null;
+        }
+        else
+        {
+            Samochod wyprowadzonySamochod = samochody[liczbaSamochodow - 1];
+            samochody[liczbaSamochodow - 1] = null;
+            liczbaSamochodow--;
+            return wyprowadzonySamochod;
+        }
+    }
+
+    // Method to print all information about the garage and its cars
+    public void WypiszInfo()
+    {
+        Console.WriteLine($"Adres: {adres}");
+        Console.WriteLine($"Pojemność: {pojemnosc}");
+        Console.WriteLine($"Liczba garażowanych samochodów: {liczbaSamochodow}");
+        for (int i = 0; i < liczbaSamochodow; i++)
+        {
+            samochody[i].WypiszInfo();
+            Console.WriteLine();
+        }
+    }
+}

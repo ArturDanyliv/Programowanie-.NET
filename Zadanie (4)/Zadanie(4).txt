@@ -1,0 +1,40 @@
+Stwórz narzędzie szyfrujące i deszyfrujące wskazany plik za pomocą algorytmu RSA
+
+Aby utworzyć .Aplikacja NET, która szyfruje i odszyfrowuje pliki za pomocą algorytmu RSA, możesz wykonać następujące kroki:
+
+1) Skonfiguruj aplikację konsoli: Utwórz nową aplikację konsoli w Visual Studio.
+2). Zaimplementuj szyfrowanie i deszyfrowanie RSA: Użyj klasy RSACryptoServiceProvider do operacji RSA.
+3). Twórz metody generowania, szyfrowania i deszyfrowania kluczy: zapisuj metody generowania kluczy, szyfrowania plików i deszyfrowania plików.
+4) Interfejs użytkownika do wyboru i szyfrowania / deszyfrowania plików: Zaimplementuj prosty interfejs użytkownika, aby wybrać pliki i wybrać operacje.
+
+Implementacja krok po kroku
+Krok 1: Skonfiguruj aplikację konsoli
+Utwórz nową aplikację konsoli w Visual Studio i nazwij ją RSAFileEncryption.
+
+Krok 2: Zaimplementuj szyfrowanie i deszyfrowanie RSA
+
+
+
+
+Wyjaśnienie
+1. Generuj klucze:
+
+• Metoda GenerateKeys generuje nową parę kluczy RSA (klucze publiczne i prywatne). Te klucze służą do szyfrowania i deszyfrowania.
+2). Szyfruj plik:
+
+• Metoda EncryptFile odczytuje zawartość pliku wejściowego, szyfruje go za pomocą klucza publicznego i zapisuje zaszyfrowane dane do pliku wyjściowego.
+3). Plik odszyfrowujący:
+
+• Metoda DecryptFile odczytuje zaszyfrowaną zawartość z pliku wejściowego, odszyfrowuje ją za pomocą klucza prywatnego i zapisuje odszyfrowane dane do pliku wyjściowego
+
+
+
+Uruchomienie programu
+Utwórz przykładowy plik:
+
+Utwórz plik o nazwie example.txt w katalogu projektu z przykładowym tekstem.
+Uruchom aplikację:
+
+Po uruchomieniu aplikacji wygeneruje klucze RSA, zaszyfruje zawartość example.txt i zapisze zaszyfrowaną zawartość na scrifted_example.txt.
+Następnie odszyfruje zawartość szyfrowanego_example.txt i zapisze odszyfrowaną zawartość na decrypted_example.txt.
+Ta aplikacja pokazuje, jak używać RSA do szyfrowania i deszyfrowania plików w .NET, zapewniający podstawowe, ale funkcjonalne narzędzie do obsługi bezpieczeństwa plików za pomocą RSA.

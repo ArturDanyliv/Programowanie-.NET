@@ -1,0 +1,34 @@
+<Window x:Class="EncryptionApp.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Encryption App" Height="450" Width="800">
+    <Grid>
+        <ComboBox x:Name="AlgorithmComboBox" HorizontalAlignment="Left" VerticalAlignment="Top" Width="200" Margin="10">
+            <ComboBoxItem Content="AES" />
+            <ComboBoxItem Content="DES" />
+            <ComboBoxItem Content="TripleDES" />
+        </ComboBox>
+
+        <Button x:Name="GenerateKeysButton" Content="Generate Keys" HorizontalAlignment="Left" VerticalAlignment="Top" Width="200" Margin="10,40,0,0" Click="GenerateKeysButton_Click"/>
+
+        <TextBox x:Name="PlainTextBox" HorizontalAlignment="Left" Height="100" VerticalAlignment="Top" Width="350" Margin="10,80,0,0" TextWrapping="Wrap" PlaceholderText="Enter plain text"/>
+
+        <Button x:Name="EncryptButton" Content="Encrypt" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Margin="370,80,0,0" Click="EncryptButton_Click"/>
+        <Button x:Name="DecryptButton" Content="Decrypt" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Margin="370,120,0,0" Click="DecryptButton_Click"/>
+
+        <TextBox x:Name="CipherTextBox" HorizontalAlignment="Left" Height="100" VerticalAlignment="Top" Width="350" Margin="10,200,0,0" TextWrapping="Wrap" PlaceholderText="Cipher text"/>
+
+        <TextBox x:Name="HexTextBox" HorizontalAlignment="Left" Height="100" VerticalAlignment="Top" Width="350" Margin="10,310,0,0" TextWrapping="Wrap" PlaceholderText="Hex"/>
+
+        <StackPanel HorizontalAlignment="Left" VerticalAlignment="Top" Margin="500,10,0,0">
+            <TextBlock Text="Key:" />
+            <TextBox x:Name="KeyTextBox" Width="200"/>
+            <TextBlock Text="IV:" />
+            <TextBox x:Name="IVTextBox" Width="200"/>
+            <TextBlock Text="Encryption Time:" />
+            <TextBox x:Name="EncryptionTimeTextBox" Width="200"/>
+            <TextBlock Text="Decryption Time:" />
+            <TextBox x:Name="DecryptionTimeTextBox" Width="200"/>
+        </StackPanel>
+    </Grid>
+</Window>

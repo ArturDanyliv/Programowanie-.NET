@@ -1,0 +1,68 @@
+namespace RSAFileEncryption
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            string publicKey;
+            string privateKey;
+
+            // Generate RSA keys
+            GenerateKeys(out publicKey, out privateKey);
+
+            Console.WriteLine("RSA Public Key:");
+            Console.WriteLine(publicKey);
+            Console.WriteLine("\nRSA Private Key:");
+            Console.WriteLine(privateKey);
+
+            string inputFile = "example.txt"; // Path to the input file
+            string encryptedFile = "encrypted_example.txt";
+            string decryptedFile = "decrypted_example.txt";
+
+            // Encrypt the file
+            EncryptFile(inputFile, encryptedFile, publicKey);
+            Console.WriteLine($"\nFile encrypted to {encryptedFile}");
+
+            // Decrypt the file
+            DecryptFile(encryptedFile, decryptedFile, privateKey);
+            Console.WriteLine($"\nFile decrypted to {decryptedFile}");
+        }
+
+        public static void GenerateKeys(out string publicKey, out string privateKey)
+        {
+            using (var rsa = new RSACryptoServiceProvider(2048))
+            {
+                publicKey = rsa.ToXmlString(false); // Export public key
+                privateKey = rsa.ToXmlString(true); // Export private key
+            }
+        }
+
+        public static void EncryptFile(string inputFile, string outputFile, string publicKey)
+        {
+            byte[] dataToEncrypt = File.ReadAllBytes(inputFile);
+            byte[] encryptedData;
+
+            using (var rsa = new RSACryptoServiceProvider(2048))
+            {
+                rsa.FromXmlString(publicKey);
+                encryptedData = rsa.Encrypt(dataToEncrypt, false);
+            }
+
+            File.WriteAllBytes(outputFile, encryptedData);
+        }
+
+        public static void DecryptFile(string inputFile, string outputFile, string privateKey)
+        {
+            byte[] dataToDecrypt = File.ReadAllBytes(inputFile);
+            byte[] decryptedData;
+
+            using (var rsa = new RSACryptoServiceProvider(2048))
+            {
+                rsa.FromXmlString(privateKey);
+                decryptedData = rsa.Decrypt(dataToDecrypt, false);
+            }
+
+            File.WriteAllBytes(outputFile, decryptedData);
+        }
+    }
+}

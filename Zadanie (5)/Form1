@@ -1,0 +1,46 @@
+namespace SinCosGraph
+{
+    public partial class Form1 : Form
+    {
+        public Form1()
+        {
+            InitializeComponent();
+            // Set the panel's Paint event to draw the cosine wave
+            drawingPanel.Paint += new PaintEventHandler(DrawCosineWave);
+        }
+
+        // Method to draw the cosine wave
+        private void DrawCosineWave(object sender, PaintEventArgs e)
+        {
+            // Get the Graphics object from the PaintEventArgs
+            Graphics g = e.Graphics;
+
+            // Define the pen and the panel dimensions
+            Pen pen = new Pen(Color.Blue, 2);
+            int width = drawingPanel.Width;
+            int height = drawingPanel.Height;
+
+            // Draw the x-axis and y-axis
+            g.DrawLine(Pens.Black, 0, height / 2, width, height / 2); // x-axis
+            g.DrawLine(Pens.Black, width / 2, 0, width / 2, height);  // y-axis
+
+            // Define the scale factors
+            double xScale = width / (2 * Math.PI);  // Scale x to fit the panel
+            double yScale = height / 2.0;           // Scale y to fit the panel
+
+            // Draw the cosine wave
+            for (int i = 0; i < width; i++)
+            {
+                // Convert the pixel coordinate to the corresponding x value
+                double x = (i - width / 2) / xScale;
+                // Calculate the cosine of x
+                double y = Math.Cos(x);
+                // Convert the y value to the corresponding pixel coordinate
+                int yPixel = (int)(height / 2 - y * yScale);
+
+                // Draw a small rectangle at the calculated position
+                g.DrawRectangle(pen, i, yPixel, 1, 1);
+            }
+        }
+    }
+}
